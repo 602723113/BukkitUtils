@@ -1,0 +1,4 @@
+name: BukkitUtils
+main: cc.deepinmc.utils.plugin.UtilPlugin
+version: 1.0.0
+author: DeepinMC
