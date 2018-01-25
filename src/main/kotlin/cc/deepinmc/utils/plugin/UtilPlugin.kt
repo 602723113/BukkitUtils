@@ -17,5 +17,6 @@ class UtilPlugin : JavaPlugin() {
     companion object {
         @JvmStatic
         lateinit var instance: UtilPlugin
+            private set
     }
 }
