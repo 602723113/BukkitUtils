@@ -10,13 +10,13 @@ import org.bukkit.plugin.java.JavaPlugin
  */
 class UtilPlugin : JavaPlugin() {
 
-    override fun onEnable() {
-        instance = this
-    }
-
     companion object {
         @JvmStatic
         lateinit var instance: UtilPlugin
             private set
+    }
+
+    override fun onEnable() {
+        instance = this
     }
 }

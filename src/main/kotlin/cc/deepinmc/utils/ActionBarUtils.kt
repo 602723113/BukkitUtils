@@ -18,7 +18,7 @@ object ActionBarUtils {
     /**
      * 给一名玩家发送actionbar
      * <p>
-     * send a actionbar to player
+     * send schudule actionbar to player
      *
      * @param player player object
      * @param msg    message
