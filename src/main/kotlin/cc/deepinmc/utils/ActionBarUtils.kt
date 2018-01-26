@@ -8,39 +8,29 @@ import org.bukkit.entity.Player
 import java.lang.reflect.InvocationTargetException
 
 /**
- * Easy to send an actionbar
+ * 给一名玩家发送actionbar
+ * <p>
+ * send a actionbar to player
  *
- * @author Zoyn
- * @since 2016/?/?
+ * @param player player object
+ * @param msg    message
  */
-object ActionBarUtils {
+fun sendBar(player: Player, msg: String) {
+    val translatedMessage = ChatColor.translateAlternateColorCodes('&', msg)
 
-    /**
-     * 给一名玩家发送actionbar
-     * <p>
-     * send schudule actionbar to player
-     *
-     * @param player player object
-     * @param msg    message
-     */
-    @JvmStatic
-    fun sendBar(player: Player, msg: String) {
-        val translatedMessage = ChatColor.translateAlternateColorCodes('&', msg)
+    //get protocol manager instance
+    val protocolManager = ProtocolLibrary.getProtocolManager()
+    val packet = protocolManager.createPacket(PacketType.Play.Server.CHAT)
 
-        //get protocol manager instance
-        val protocolManager = ProtocolLibrary.getProtocolManager()
-        val packet = protocolManager.createPacket(PacketType.Play.Server.CHAT)
+    //write data
+    packet.chatComponents.write(0, WrappedChatComponent.fromText(translatedMessage))
+    packet.bytes.write(0, 2.toByte())
 
-        //write data
-        packet.chatComponents.write(0, WrappedChatComponent.fromText(translatedMessage))
-        packet.bytes.write(0, 2.toByte())
-
-        // send packet
-        try {
-            protocolManager.sendServerPacket(player, packet, false)
-        } catch (e: InvocationTargetException) {
-            e.printStackTrace()
-        }
+    // send packet
+    try {
+        protocolManager.sendServerPacket(player, packet, false)
+    } catch (e: InvocationTargetException) {
+        e.printStackTrace()
     }
 
 }

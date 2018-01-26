@@ -13,24 +13,19 @@ import java.lang.reflect.InvocationTargetException
  * @author Zoyn
  * @since 2018-01-25
  */
-object TabUtils {
+fun setTab(player: Player, head: String?, foot: String?) {
+    val translatedHead = if (head != null) ChatColor.translateAlternateColorCodes('&', head) else ""
+    val translatedFoot = if (foot != null) ChatColor.translateAlternateColorCodes('&', foot) else ""
+    // create packet
+    val packet = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER)
 
-    @JvmStatic
-    fun setTab(player: Player, head: String?, foot: String?) {
-        val translatedHead = if (head != null) ChatColor.translateAlternateColorCodes('&', head) else ""
-        val translatedFoot = if (foot != null) ChatColor.translateAlternateColorCodes('&', foot) else ""
-        // create packet
-        val packet = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER)
+    packet.chatComponents
+            .write(0, WrappedChatComponent.fromText(translatedHead))
+            .write(1, WrappedChatComponent.fromText(translatedFoot))
 
-        packet.chatComponents
-                .write(0, WrappedChatComponent.fromText(translatedHead))
-                .write(1, WrappedChatComponent.fromText(translatedFoot))
-
-        try {
-            ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet, false)
-        } catch (e: InvocationTargetException) {
-            e.printStackTrace()
-        }
+    try {
+        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet, false)
+    } catch (e: InvocationTargetException) {
+        e.printStackTrace()
     }
-
 }
