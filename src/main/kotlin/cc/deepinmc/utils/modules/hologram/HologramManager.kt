@@ -20,8 +20,7 @@ class HologramManager {
     fun addHologram(location: Location, hologram: Hologram) {
         if (hologramMap.containsKey(location))
             Bukkit.getLogger().warning("found duplicate hologram add!")
-        else
-            hologramMap[location] = hologram
+        hologramMap[location] = hologram
     }
 
     fun removeHologram(location: Location?) = hologramMap.remove(location)
