@@ -5,7 +5,6 @@ import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.wrappers.WrappedChatComponent
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
-import java.lang.reflect.InvocationTargetException
 
 /**
  * 给一名玩家发送actionbar
@@ -27,10 +26,5 @@ fun sendBar(player: Player, msg: String) {
     packet.bytes.write(0, 2.toByte())
 
     // send packet
-    try {
-        protocolManager.sendServerPacket(player, packet, false)
-    } catch (e: InvocationTargetException) {
-        e.printStackTrace()
-    }
-
+    protocolManager.sendServerPacket(player, packet, false)
 }

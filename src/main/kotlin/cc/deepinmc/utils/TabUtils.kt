@@ -5,7 +5,6 @@ import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.wrappers.WrappedChatComponent
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
-import java.lang.reflect.InvocationTargetException
 
 /**
  * Easy to set player tab
@@ -23,9 +22,5 @@ fun setTab(player: Player, head: String?, foot: String?) {
             .write(0, WrappedChatComponent.fromText(translatedHead))
             .write(1, WrappedChatComponent.fromText(translatedFoot))
 
-    try {
-        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet, false)
-    } catch (e: InvocationTargetException) {
-        e.printStackTrace()
-    }
+    ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet, false)
 }
