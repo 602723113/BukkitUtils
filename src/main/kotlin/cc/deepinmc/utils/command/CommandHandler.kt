@@ -27,7 +27,6 @@ class CommandHandler : CommandExecutor {
         // 子命令 map[args[0]]
         if (map[args[0]] == null) {
             sender.sendMessage("&c未知命令!")
-            return true
         } else {
             map[args[0]]?.execute(sender, args)
         }
