@@ -9,5 +9,5 @@ import org.bukkit.command.CommandSender
  * @since 2018-01-28
  */
 interface SubCommand {
-    fun execute(sender: CommandSender, args: Array<out String>)
+    fun execute(sender: CommandSender?, args: Array<out String>?)
 }

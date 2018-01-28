@@ -2,3 +2,14 @@ name: BukkitUtils
 main: cc.deepinmc.utils.plugin.UtilPlugin
 version: 1.0.0
 author: DeepinMC
+depend: [ProtocolLib]
+commands:
+  util:
+    description: 'Develop By DeepinMC'
+permission:
+  util.title:
+    default: op
+  util.bar:
+    default: op
+  util.tab:
+    default: op
