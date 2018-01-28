@@ -1,1 +1,2 @@
 # BukkitUtils
+BukkitUtils是一个对于Bukkit服务器所开发的插件, 所用语言为Kotlin
