@@ -1,5 +1,7 @@
 package cc.deepinmc.utils.plugin
 
+import cc.deepinmc.utils.command.CommandHandler
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -18,5 +20,7 @@ class UtilPlugin : JavaPlugin() {
 
     override fun onEnable() {
         instance = this
+
+        Bukkit.getPluginCommand("util").executor = CommandHandler()
     }
 }
