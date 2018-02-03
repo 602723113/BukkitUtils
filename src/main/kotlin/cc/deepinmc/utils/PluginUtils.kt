@@ -14,6 +14,7 @@ import java.io.File
 private val pluginManager = Bukkit.getPluginManager()
 private val pluginsFile = UtilPlugin.instance.dataFolder.parentFile
 private val pluginLoader = UtilPlugin.instance.pluginLoader
+private val updateFile = File(pluginsFile.absolutePath + File.separator + "update")
 
 fun enablePlugin(plugin: Plugin) = pluginManager.enablePlugin(plugin)
 
@@ -56,3 +57,12 @@ fun getPluginsFolder(): File = pluginsFile
 fun getJarFiles(): List<File> {
     return pluginsFile.listFiles({ pathname: File? -> pathname!!.name.endsWith("jar") }).toList()
 }
+
+/**
+ * 获取更新文件夹
+ * <p>
+ * Get the update folder
+ *
+ * @return the update folder
+ */
+fun getUpdateFile(): File = updateFile
