@@ -1,21 +1,21 @@
 package cc.deepinmc.utils
 
-import net.minecraft.server.v1_11_R1.NBTTagByte
-import net.minecraft.server.v1_11_R1.NBTTagCompound
+import cc.deepinmc.utils.reflect.getConstructor
+import cc.deepinmc.utils.reflect.getMethod
 import org.bukkit.Bukkit
 import org.bukkit.Material
-import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import java.util.stream.Collectors
 
-fun ItemStack.setUnbreakable() {
-    val nmsItem = CraftItemStack.asNMSCopy(this)
-    val nbt = nmsItem.tag ?: NBTTagCompound()
-    nbt.set("unbreakable", NBTTagByte(1.toByte()))
-    nmsItem.tag = nbt
+fun ItemStack.setUnbreakable(breakable: Boolean) {
+    val nmsItem = getNMSItem(this)
+    val nbt = nmsItem.javaClass.getMethod("getTag").invoke(nmsItem) ?: getConstructor(getNMSClass("NBTTagCompound"))?.newInstance()
+    val set = getMethod(getNMSClass("NBTTagCompound"), "set", String::class.java, getNMSClass("NBTBase"))
+    val obj = set?.invoke(nbt, "Unbreakable", getConstructor(getNMSClass("NBTTagByte"))?.newInstance(if (breakable) 1.toByte() else 0.toByte()))
+    nmsItem.javaClass.getMethod("setTag", getNMSClass("NBTTagCompound")).invoke(nmsItem, obj)
 }
 
 fun getItemDisplayName(itemStack: ItemStack): String? = itemStack.itemMeta.displayName
@@ -60,6 +60,7 @@ class ItemStackBuilder {
     private var material: Material
     private var data: Short = 0
     private var amount = 1
+    private var unbreakable = false
     private var itemMeta: ItemMeta
 
     fun amount(amount: Int): ItemStackBuilder {
@@ -68,7 +69,7 @@ class ItemStackBuilder {
     }
 
     fun durability(durability: Short): ItemStackBuilder {
-        this.data = durability
+        this.data = (this.material.maxDurability - durability).toShort()
         return this
     }
 
@@ -122,11 +123,16 @@ class ItemStackBuilder {
         return this
     }
 
+    fun unbreakable(breakable: Boolean): ItemStackBuilder {
+        this.unbreakable = breakable
+        return this
+    }
+
     fun build(): ItemStack {
         val itemStack = ItemStack(material, amount, data)
         itemStack.durability = this.data
+        itemStack.setUnbreakable(unbreakable)
         itemStack.itemMeta = this.itemMeta
-        itemStack.setUnbreakable()
         return itemStack
     }
 }
