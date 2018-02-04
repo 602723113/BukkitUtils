@@ -21,6 +21,7 @@ class UtilPlugin : JavaPlugin() {
     override fun onEnable() {
         instance = this
 
+        // register command 注册命令
         Bukkit.getPluginCommand("util").executor = CommandHandler()
     }
 }

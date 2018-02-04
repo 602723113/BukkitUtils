@@ -1,11 +1,22 @@
 package cc.deepinmc.utils
 
+import net.minecraft.server.v1_11_R1.NBTTagByte
+import net.minecraft.server.v1_11_R1.NBTTagCompound
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import java.util.stream.Collectors
+
+fun ItemStack.setUnbreakable() {
+    val nmsItem = CraftItemStack.asNMSCopy(this)
+    val nbt = nmsItem.tag ?: NBTTagCompound()
+    nbt.set("unbreakable", NBTTagByte(1.toByte()))
+    nmsItem.tag = nbt
+}
 
 fun getItemDisplayName(itemStack: ItemStack): String? = itemStack.itemMeta.displayName
 
@@ -66,12 +77,18 @@ class ItemStackBuilder {
         return this
     }
 
-    fun lore(vararg lore: String): ItemStackBuilder {
-        this.itemMeta.lore = lore.toList()
+    fun lore(vararg lore: String, translate: Boolean = true): ItemStackBuilder {
+        this.itemMeta.lore =
+                if (translate)
+                    lore.toList()
+                            .stream()
+                            .map { s: String -> s.replace("&".toRegex(), "§") }
+                            .collect(Collectors.toList())
+                else lore.toList()
         return this
     }
 
-    fun lore(lore: MutableList<String>, translate: Boolean): ItemStackBuilder {
+    fun lore(lore: MutableList<String>, translate: Boolean = true): ItemStackBuilder {
         this.itemMeta.lore =
                 if (translate) lore
                         .stream()
@@ -95,10 +112,21 @@ class ItemStackBuilder {
         return this
     }
 
+    fun enchant(enchantment: Enchantment, level: Int, ignoreSecurity: Boolean): ItemStackBuilder {
+        itemMeta.addEnchant(enchantment, level, ignoreSecurity)
+        return this
+    }
+
+    fun enchant(enchantments: MutableMap<Enchantment, Int>, ignoreSecurity: Boolean): ItemStackBuilder {
+        enchantments.forEach { enchantment, level -> itemMeta.addEnchant(enchantment, level, ignoreSecurity) }
+        return this
+    }
+
     fun build(): ItemStack {
         val itemStack = ItemStack(material, amount, data)
         itemStack.durability = this.data
         itemStack.itemMeta = this.itemMeta
+        itemStack.setUnbreakable()
         return itemStack
     }
 }
