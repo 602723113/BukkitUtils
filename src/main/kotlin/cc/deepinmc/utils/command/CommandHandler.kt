@@ -1,6 +1,9 @@
 package cc.deepinmc.utils.command
 
-import cc.deepinmc.utils.command.subcommand.*
+import cc.deepinmc.utils.command.subcommand.BarCommand
+import cc.deepinmc.utils.command.subcommand.HelpCommand
+import cc.deepinmc.utils.command.subcommand.TabCommand
+import cc.deepinmc.utils.command.subcommand.TitleCommand
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -22,7 +25,6 @@ class CommandHandler : CommandExecutor {
         map.put("title", TitleCommand())
         map.put("bar", BarCommand())
         map.put("tab", TabCommand())
-        map.put("item", ItemCommand())
     }
 
     override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
