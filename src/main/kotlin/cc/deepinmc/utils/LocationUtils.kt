@@ -3,6 +3,9 @@ package cc.deepinmc.utils
 import org.bukkit.Location
 import org.bukkit.util.Vector
 
+fun Location.equalsBlock(location: Location): Boolean =
+        this.blockX == location.blockX && this.blockY == location.blockY && this.blockZ == location.blockZ
+
 /**
  * 取两坐标点的距离
  * 使用空间两点距离公式计算: √(X2 - X1)^2 + (Y2 - Y1)^2 + (Z2 - Z1)^2

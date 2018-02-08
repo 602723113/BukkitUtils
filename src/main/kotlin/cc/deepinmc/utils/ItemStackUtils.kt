@@ -42,6 +42,12 @@ fun hasLore(itemStack: ItemStack): Boolean? = itemStack.itemMeta?.hasLore()
 
 class ItemStackBuilder {
 
+    private var material: Material
+    private var data: Short = 0
+    private var amount = 1
+    private var unbreakable = false
+    private var itemMeta: ItemMeta
+
     constructor(material: Material, amount: Int, data: Short, itemMeta: ItemMeta?) {
         this.material = material
         this.amount = amount
@@ -56,12 +62,6 @@ class ItemStackBuilder {
     constructor(material: Material, amount: Int, data: Short) : this(material, amount, data, null)
 
     constructor(itemStack: ItemStack) : this(itemStack.type, itemStack.amount, itemStack.data.data.toShort(), itemStack.itemMeta)
-
-    private var material: Material
-    private var data: Short = 0
-    private var amount = 1
-    private var unbreakable = false
-    private var itemMeta: ItemMeta
 
     fun amount(amount: Int): ItemStackBuilder {
         this.amount = amount
