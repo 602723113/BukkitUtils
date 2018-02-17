@@ -6,6 +6,7 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
+import java.util.function.Consumer
 import java.util.stream.Collectors
 
 /**
@@ -74,16 +75,12 @@ class ItemStackBuilder {
     }
 
     fun itemFlag(itemFlags: MutableList<ItemFlag>): ItemStackBuilder {
-        for (itemFlag in itemFlags) {
-            this.itemMeta.addItemFlags(itemFlag)
-        }
+        itemFlags.forEach(Consumer { itemFlag -> this.itemMeta.addItemFlags(itemFlag) })
         return this
     }
 
     fun itemFlag(vararg itemFlags: ItemFlag): ItemStackBuilder {
-        for (itemFlag in itemFlags) {
-            this.itemMeta.addItemFlags(itemFlag)
-        }
+        itemFlags.forEach { itemFlag -> this.itemMeta.addItemFlags(itemFlag) }
         return this
     }
 
